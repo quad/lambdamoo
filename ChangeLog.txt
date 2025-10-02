@@ -2670,8 +2670,8 @@ to 64-bit integers and Unicode).
             raises(E_INVARG) if N is not a legal STR character.
    where, in each case C has to be a one-character string, and
      'encode_chars(LS,ENCODING)'
-     'decode_chars(B,ENCODING[,FULLY])'
-   analogous to 'encode_binary(LS)' and 'decode_binary(LS[,FULLY])'
+     'decode_chars(MB,ENCODING[,FULLY])'
+   analogous to 'encode_binary(LS)' and 'decode_binary(MB[,FULLY])'
    except these translate between moobinary (~-escaped strings of bytes)
    and either strings or intermixed lists of strings and numbers
    where the numbers are now code points rather than byte numbers
@@ -2751,7 +2751,7 @@ branch for various reasons.
    -- waifs can use property and verbcall syntax.
    -- New option WAIF_DICT, if set, allows waif indexing ([]) syntax.
 
--- xml (Rob Leslie), June 2008
+-- xml (Ken Fox), June 2008
    New builtins:
      xml_parse_tree() and xml_parse_document(),
    both invoke the expat XML library to parse an XML-format source
@@ -3001,7 +3001,7 @@ Version 1.9.0alpha, 29 September 2025
    the presence of out-of-range numbers, non-ASCII UTF-8 sequences,
    unexpected (bitwise) operators, or structures (e.g., Waifs).
    1.9.0 has *NOT* changed the database format or version number
-   (Even if we did change the version number, there would still still
+   (Even if we did change the version number, there would still
    be a problem with all of the prior version checkpoint files out
    there).
    Therefore:
@@ -3121,8 +3121,9 @@ Version 1.9.0alpha, 29 September 2025
      has been removed, we now link to shared libexpat (version 2).
      Static builds are possible with --with-expatpath=<dir>.
 -- VPATH builds, for when you want to build multiple distinct server
-   variants at the same time, now work.
-   Use ./path/to/configure --srcdir=path/to
+   variants at the same time, now work.  You create a build directory,
+   cd to it, and then use
+      ./path/to/src/configure --srcdir=path/to/src  ...
 
 **** Changes relevant to server hackers:
 -- New configuration files:
@@ -3304,19 +3305,21 @@ Version 1.9.0alpha, 29 September 2025
       adding the rest of the non-Unicode features, then maxconcat
       (which may be the best exposition of maxconcat, since it was
       done last),
-   -- a "reconciliation branch" that starts all the way back
-      at WAIF_ROOT_4, introduces int64, the FlBox abstraction
-      and the other non-Unicode miscellaneous features and fixes
-      first, and then it splits into
+   -- a "reconciliation branch" representing the way everything
+      actually happened in the Correct Alternate History,
+      that starts all the way back at WAIF_ROOT_4,
+      introduces int64, the FlBox abstraction and the other
+      non-Unicode miscellaneous features and fixes first,
+      and then it splits into
       -- the 'w3' branch that does maxconcat joining into
          the mainline right before it starts on unicode
       -- the 'u4' branch that does unicode joining into
          Codepoint right before it starts on maxconcat
    then the final Codepoint merge followed by the
-   other extensions being introduced.  In all cases, the
+   other extensions being introduced.  On all 3 lines, the
    build/autoconf/extension-framework changes are early;
-   so most commits after 'introduce extensions.ac' on each of the
-   three lines should build (I have not checked them all).
+   so most commits after 'introduce extensions.ac' should
+   build (I have not checked them all).
 -- Style issues:
    -- .c and .h file prologues (the top of the file with the #include
       declarations) have been systematically normalized and a few new
